@@ -39,7 +39,7 @@ Code-Pulse/
 **Getting Started**
 
 1. Clone the repo
-git clone https://github.com/your-username/code-pulse.git
+git clone https://github.com/mallya-m/code-pulse.git
 cd code-pulse
 2. Install dependencies
 npm install
