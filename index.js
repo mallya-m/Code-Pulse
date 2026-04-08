@@ -1,21 +1,20 @@
-const fs = require('fs');
-const acorn = require('acorn');
+const {parseFile} = require('./src/analyzer/parser');
 
-const code = fs.readFileSync('./sample.js','utf8');
+const targetFile = './sample.js';
 
-console.log("Raw code read from file");
-console.log(code);
+const result = parseFile(targetFile);
 
-const ast = acorn.parse(code, {
-    ecmaVersion :2020,
-    sourceType :'module'
-});
+if(result === null){
+    console.log("Parsing failed. Check the errors above.");
+    process.exit(1);
+}
+console.log("File parsed successfully!");
+console.log("File path:", result.filePath);
+console.log("Code length:",result.code.length, "characters");
+console.log("AST node type:", result.ast.type);
+console.log("Top level nodes:", result.ast.body.length);
 
-console.log("\n AST (Abstract Syntax Tree)");
-console.log(JSON.stringify(ast,null,2));
-
-console.log("Top Level Node Types");
-
-ast.body.forEach(function(node){
-    console.log("Type:", node.type);
+console.log("\nTop level node types:");
+result.ast.body.forEach(function(node){
+    console.log(" -", node.type, "(line" + node.loc.start.line + ")" );
 });
